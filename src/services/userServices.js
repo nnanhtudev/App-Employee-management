@@ -1,6 +1,6 @@
 import promisePool from "../config/Database";
 import bcrypt from "bcryptjs";
-
+import db from "../models";
 const salt = bcrypt.genSaltSync(10);
 
 const hashPassWord = (password) => {
@@ -8,28 +8,23 @@ const hashPassWord = (password) => {
   return hashPassWord;
 };
 
-const getAllUsers = async () => {
-  try {
-    const [results, fields] = await promisePool.query("select * from Users");
-    return results;
-  } catch (error) {
-    console.log(error);
-  }
-};
 const createAUsers = async (email, username, password) => {
+  let hashPass = hashPassWord(password);
   try {
-    const [results, fields] = await promisePool.query(
-      "INSERT INTO Users (email, username, password) VALUES (?, ?, ?)",
-      [email, username, password]
-    );
+    await db.User.create({
+      username: username,
+      email: email,
+      password: hashPass,
+    });
   } catch (error) {
     console.log(error);
   }
 };
 
-const deleteUserById = async (id) => {
+const getAllUsers = async () => {
   try {
-    const [results, fields] = await promisePool.query("DELETE FROM Users WHERE id = ?", [id]);
+    const [results, fields] = await promisePool.query("select * from Users");
+    return results;
   } catch (error) {
     console.log(error);
   }
@@ -59,4 +54,12 @@ const updateUsers = async (email, username, id) => {
   }
 };
 
-module.exports = { getAllUsers, createAUsers, hashPassWord, deleteUserById, getUpdateUserById, updateUsers };
+const deleteUserById = async (id) => {
+  try {
+    const [results, fields] = await promisePool.query("DELETE FROM Users WHERE id = ?", [id]);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = { getAllUsers, createAUsers, deleteUserById, getUpdateUserById, updateUsers };

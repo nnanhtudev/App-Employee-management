@@ -1,11 +1,4 @@
-import {
-  getAllUsers,
-  createAUsers,
-  hashPassWord,
-  deleteUserById,
-  getUpdateUserById,
-  updateUsers,
-} from "../services/userServices";
+import { getAllUsers, createAUsers, deleteUserById, getUpdateUserById, updateUsers } from "../services/userServices";
 
 const getUsers = (req, res) => {
   res.render("users");
@@ -15,7 +8,7 @@ const createUser = async (req, res) => {
   let email = req.body.email;
   let username = req.body.username;
   let password = req.body.password;
-  await createAUsers(email, username, hashPassWord(password));
+  await createAUsers(email, username, password);
   res.redirect("/");
 };
 
