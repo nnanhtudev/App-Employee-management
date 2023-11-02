@@ -1,11 +1,11 @@
 import { Sequelize } from "sequelize";
-import config from "./config";
+import "dotenv/config";
 
-const host = config.development.host;
-const database = config.development.database;
-const username = config.development.username;
-const password = config.development.password;
-const port = config.development.port;
+const host = process.env.DB_HOST;
+const database = process.env.DB_NAME;
+const username = process.env.DB_USER;
+const password = process.env.DB_PASSWORD;
+const port = process.env.DB_PORT;
 // Option 3: Passing parameters separately (other dialects)
 const sequelize = new Sequelize(database, username, password, {
   host: host,
