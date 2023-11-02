@@ -3,10 +3,11 @@ import "dotenv/config";
 import bodyParser from "body-parser";
 import configViewEngine from "./config/viewEngine";
 import initWebRoutes from "./routes/web";
+import connection from "./config/connectDB";
 
 const app = express();
 const port = process.env.PORT || 3000;
-
+connection();
 // Config view engine
 configViewEngine(app);
 // parse application/json
