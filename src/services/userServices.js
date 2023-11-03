@@ -23,8 +23,8 @@ const createAUsers = async (email, username, password) => {
 
 const getAllUsers = async () => {
   try {
-    const [results, fields] = await promisePool.query("select * from Users");
-    return results;
+    let user = await db.User.findAll({});
+    return user;
   } catch (error) {
     console.log(error);
   }
@@ -33,8 +33,7 @@ const getAllUsers = async () => {
 const getUpdateUserById = async (id) => {
   // SELECT * FROM Customers WHERE Country='Mexico';
   try {
-    const [results, fields] = await promisePool.query("SELECT * FROM Users WHERE id =?", [id]);
-    let users = results && results.length > 0 ? results[0] : {};
+    let users = db.User.findOne({ where: { id } });
     return users;
   } catch (error) {
     console.log(error);
@@ -42,13 +41,15 @@ const getUpdateUserById = async (id) => {
 };
 
 const updateUsers = async (email, username, id) => {
-  // UPDATE Users SET email = ?, username = ?, WHERE id = ? ;
   try {
-    const [results, fields] = await promisePool.query("UPDATE Users SET email = ?, username = ? WHERE id = ?", [
-      email,
-      username,
-      id,
-    ]);
+    await db.User.update(
+      { email, username },
+      {
+        where: {
+          id,
+        },
+      }
+    );
   } catch (error) {
     console.log(error);
   }
@@ -56,7 +57,9 @@ const updateUsers = async (email, username, id) => {
 
 const deleteUserById = async (id) => {
   try {
-    const [results, fields] = await promisePool.query("DELETE FROM Users WHERE id = ?", [id]);
+    await db.User.destroy({
+      where: { id },
+    });
   } catch (error) {
     console.log(error);
   }

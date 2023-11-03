@@ -26,7 +26,6 @@ const deleteUser = async (req, res) => {
 const getUpdateUser = async (req, res) => {
   const id = req.params.id;
   let users = await getUpdateUserById(id);
-  console.log(users);
   res.render("users-update", { users });
 };
 
