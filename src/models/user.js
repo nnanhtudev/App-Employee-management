@@ -9,6 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      /**
+       * The User.belongsTo(Group) association means that a One-To-One relationship exists between User and Group,
+       * with the foreign key being defined in the source model (User).
+       *
+       */
+      User.belongsTo(models.Group);
+      User.hasMany(models.Project);
+      //A.belongsToMany(B, { through: 'C' })
+      User.belongsToMany(models.Project, { through: "Project_User" });
     }
   }
   User.init(

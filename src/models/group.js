@@ -9,6 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      /**
+       * The Group.hasMany(User) association means that a One-To-Many relationship exists between Group and User,
+       * with the foreign key being defined in the target model (User).
+       * The `models/index` file will call this method automatically.
+       */
+      Group.hasMany(models.User);
+      //A.belongsToMany(B, { through: 'C' })
+      Group.belongsToMany(models.Role, { through: "Group_Role" });
     }
   }
   Group.init(
