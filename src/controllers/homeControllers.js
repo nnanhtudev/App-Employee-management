@@ -1,5 +1,6 @@
 import { getAllUsers, createAUsers, deleteUserById, getUpdateUserById, updateUsers } from "../services/userServices";
 
+
 const getUsers = (req, res) => {
   res.render("users");
 };
