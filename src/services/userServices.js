@@ -52,8 +52,8 @@ const getAllUsers = async () => {
 const getUpdateUserById = async (id) => {
   // SELECT * FROM Customers WHERE Country='Mexico';
   try {
-    let users = db.User.findOne({ where: { id } });
-    return users;
+    let user = db.User.findOne({ where: { id } });
+    return user.get({plain: true});
   } catch (error) {
     console.log(error);
   }

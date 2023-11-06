@@ -1,7 +1,7 @@
-const { registerNewUser } = require("../services/loginRegisterService")
+const { registerNewUser, handleLoginUser } = require("../services/loginRegisterService")
 
 const testAPI = (req, res) => {
-  res.status(200).json({
+  return res.status(200).json({
     message: 'ok',
     data: 'test'
   })
@@ -9,14 +9,14 @@ const testAPI = (req, res) => {
 const handleRegister = async (req, res) => {
   try {
     //req.body email, phone, username, password
-    if(!req.body.email || !req.body.phone || !req.body.password){
+    if (!req.body.email || !req.body.phone || !req.body.password) {
       return res.status(200).json({
         EM: 'Missing require parameter', //error message,
         EC: '-1', //error code
         DT: '', //data
-      })   
+      })
     }
-    if(req.body.password && req.body.password.length < 8){
+    if (req.body.password && req.body.password.length < 3) {
       return res.status(200).json({
         EM: 'Password must be at least 8 characters long', //error message,
         EC: '-1', //error code
@@ -37,8 +37,26 @@ const handleRegister = async (req, res) => {
       EC: -1, //error code
       DT: '', //data
     })
-    
   }
 }
 
-module.exports = { testAPI, handleRegister };
+const handleLogin = async (req, res) => {
+  try {
+    let data = await handleLoginUser(req.body)
+    return res.status(200).json({
+      EM: data.EM, //error message,
+      EC: data.EC, //error code
+      DT: data.DT, //data
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({
+      EM: 'error from server', //error message,
+      EC: -1, //error code
+      DT: '', //data
+    })
+  }
+
+}
+
+module.exports = { testAPI, handleRegister, handleLogin };
