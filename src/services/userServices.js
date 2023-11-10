@@ -37,9 +37,6 @@ const getAllUsers = async () => {
     raw: true,
     nest: true,
   });
-  console.log(">>> Test relationship newUser", newUser);
-
-  console.log(">>> Test relationship Roles", roles);
 
   try {
     let user = await db.User.findAll({});
@@ -53,7 +50,7 @@ const getUpdateUserById = async (id) => {
   // SELECT * FROM Customers WHERE Country='Mexico';
   try {
     let user = db.User.findOne({ where: { id } });
-    return user.get({plain: true});
+    return user.get({ plain: true });
   } catch (error) {
     console.log(error);
   }

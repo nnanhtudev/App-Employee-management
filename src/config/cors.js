@@ -1,5 +1,4 @@
 import "dotenv/config";
-console.log(process.env.URL_REACT)
 const configCors = (app) => {
   app.use(function (req, res, next) {
     // Website you wish to allow to connect
