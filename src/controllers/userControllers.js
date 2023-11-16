@@ -7,7 +7,7 @@ const readFunc = async (req, res) => {
       let limit = req.query.limit
       let data = await userApiService.getPaginateWithUsers(+page, +limit)
       return res.status(200).json({
-        EM: data.EM, //error message,
+        EM: data.EM, //error message,.
         EC: data.EC, //error code
         DT: data.DT, //data
       })
@@ -49,7 +49,12 @@ const createFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
   try {
-    let updatedUser = await userApiService.updateUser()
+    let data = await userApiService.updateUser(req.body)
+    return res.status(200).json({
+      EM: data.EM, //error message,
+      EC: data.EC, //error code
+      DT: data.DT, //data
+    })
   } catch (error) {
     console.log(error)
     return res.status(500).json({

@@ -1,5 +1,6 @@
 import db from "../models"
-
+import { hashUserPassWord, checkEmailExists, checkPhoneExists } from './loginRegisterService'
+import { isValidFormatEmail, isValidFormatPhoneNumber } from '../utils/isValidFormat'
 const getAllUser = async () => {
   try {
     let users = await db.User.findAll(
@@ -37,9 +38,9 @@ const getPaginateWithUsers = async (page, limit) => {
       offset: offset,
       limit: limit,
       attributes: ["id", "username", "email", 'address', 'phone', 'sex'],
-      include: { model: db.Group, attributes: ["name", "description"] },
+      include: { model: db.Group, attributes: ["name", "description", 'id'] },
       order: [
-        ['id', 'ASC']
+        ['id', 'DESC']
       ]
     })
     let totalPages = Math.ceil(count / limit)
@@ -64,7 +65,42 @@ const getPaginateWithUsers = async (page, limit) => {
 
 const createNewUser = async (data) => {
   try {
-    await db.User.create(data)
+    // check user are existing
+    let checkFormatEmail = isValidFormatEmail(data.email)
+    if (!checkFormatEmail) {
+      return {
+        EM: 'Invalid email format',
+        EC: 1,
+        DT: 'email'
+      }
+    }
+    let checkFormatPhoneNumber = isValidFormatPhoneNumber(data.phone)
+    if (checkFormatPhoneNumber === false) {
+      return {
+        EM: 'Invalid phone number. The phone number must have at least 10 digits and no letters',
+        EC: 1,
+        DT: 'phone'
+      }
+    }
+    let isEmailExists = await checkEmailExists(data.email)
+    if (isEmailExists === true) {
+      return {
+        EM: 'The email already exists',
+        EC: 1,
+        DT: 'email'
+      }
+    }
+    let isPhoneExists = await checkPhoneExists(data.phone)
+    if (isPhoneExists === true) {
+      return {
+        EM: 'The phone already exists',
+        EC: 1,
+        DT: 'phone'
+      }
+    }
+    //hash password
+    let hashPassword = hashUserPassWord(data.password)
+    await db.User.create({ ...data, password: hashPassword })
     return {
       EM: 'Create users successfully',
       EC: 0,
@@ -83,16 +119,33 @@ const createNewUser = async (data) => {
 
 const updateUser = async (data) => {
   try {
+    if (!data.groupId) {
+      return {
+        EM: 'Error with empty groupId',
+        EC: 1,
+        DT: 'group'
+      }
+    }
     let user = await db.User.findOne(
       {
         where: { id: data.id }
       }
     )
     if (user) {
-      user.save({})
+      await user.update({
+        username: data.username,
+        address: data.address,
+        sex: data.sex,
+        groupId: data.groupId
+      })
+      return {
+        EM: 'Update user successfully',
+        EC: 0,
+        DT: []
+      }
     } else {
       return {
-        EM: 'GET UPDATED USERS NOT FOUND',
+        EM: 'Users not found',
         EC: -2,
         DT: []
       }
