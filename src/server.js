@@ -6,6 +6,7 @@ import initWebRoutes from "./routes/web";
 import initAPIRoutes from "./routes/api";
 import connection from "./config/connectDB";
 import configCors from "./config/cors";
+import { createJWT, verifyToken } from './middleware/JWTAction';
 
 
 const app = express();
@@ -14,6 +15,11 @@ const port = process.env.PORT || 3000;
 configCors(app)
 
 connection();
+//test JWT
+createJWT()
+//Verify token
+const decodedData = verifyToken('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidHVkZXYiLCJhZGRyZXNzIjoiUXVhbmcgTmFtIiwiaWF0IjoxNzAwMTA1NDYxfQ.Y6RmUZO3DRRB1VHZrr2sxbJfVg65ppSvpeYT8qiEMGE')
+console.log(decodedData)
 // Config view engine
 configViewEngine(app);
 // parse application/json
