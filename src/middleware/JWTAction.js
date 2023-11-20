@@ -1,30 +1,80 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-const createJWT = (req, res) => {
-  let payload = { name: 'tudev', address: 'Quang Nam' }
-  let key = process.env.JWT_SECRET
-
-  let token = null
+const createJWT = (payload) => {
+  let key = process.env.JWT_SECRET;
+  let token = null;
   try {
     token = jwt.sign(payload, key);
-    console.log(token)
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-  return token
-}
+  return token;
+};
 
 const verifyToken = (token) => {
-  let key = process.env.JWT_SECRET
-  let data = null
+  let key = process.env.JWT_SECRET;
+  let decoded = null;
   try {
-    let decoded = jwt.verify(token, key)
-    data = decoded
+    decoded = jwt.verify(token, key);
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
-  return data
-}
+  return decoded;
+};
 
-module.exports = { createJWT, verifyToken } 
+const checkUserJWT = (req, res, next) => {
+  let cookies = req.cookies;
+  if (cookies && cookies.jwt) {
+    let token = cookies.jwt;
+    let decoded = verifyToken(token);
+    if (decoded) {
+      req.user = decoded;
+      next();
+    } else {
+      return res.status(401).json({
+        EM: "Not authorized the user",
+        EC: -1,
+        DT: "",
+      });
+    }
+  } else {
+    return res.status(401).json({
+      EM: "Not authorized the user",
+      EC: -1,
+      DT: "",
+    });
+  }
+};
+
+const checkUserPermission = (req, res, next) => {
+  if (req.user) {
+    let email = req.user.email;
+    let roles = req.user.groupWithRoles.Roles;
+    let currentUrl = req.path;
+    if (!roles && roles.length === 0) {
+      return res.status(403).json({
+        EM: "Your don't have  permission to access this resource",
+        EC: -1,
+        DT: "",
+      });
+    }
+    let canAccess = roles.some((item) => item.url === currentUrl);
+    if (canAccess === true) {
+      next();
+    } else {
+      return res.status(403).json({
+        EM: "Your don't have  permission to access this resource",
+        EC: -1,
+        DT: "",
+      });
+    }
+  } else {
+    return res.status(401).json({
+      EM: "Not authorized the user",
+      EC: -1,
+      DT: "",
+    });
+  }
+};
+module.exports = { createJWT, verifyToken, checkUserJWT, checkUserPermission };

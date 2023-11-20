@@ -2,6 +2,7 @@ import userApiService from '../services/userApiService'
 
 const readFunc = async (req, res) => {
   try {
+    console.log(">>> Check req.user", req.user)
     if (req.query.page && req.query.limit) {
       let page = req.query.page
       let limit = req.query.limit

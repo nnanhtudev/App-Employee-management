@@ -15,6 +15,11 @@ const createUser = async (req, res) => {
 
 const getHomepage = async (req, res) => {
   let results = await getAllUsers();
+  // Cookies that have not been signed
+  console.log('Cookies: ', req.cookies)
+
+  // Cookies that have been signed
+  console.log('Signed Cookies: ', req.signedCookies)
   res.render("home", { users: results });
 };
 
