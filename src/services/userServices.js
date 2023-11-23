@@ -18,6 +18,11 @@ const createAUsers = async (email, username, password) => {
     });
   } catch (error) {
     console.log(error);
+    return {
+      EM: "Something went wrong with service",
+      EC: -1,
+      DT: [],
+    };
   }
 };
 
@@ -43,6 +48,11 @@ const getAllUsers = async () => {
     return user;
   } catch (error) {
     console.log(error);
+    return {
+      EM: "Something went wrong with service",
+      EC: -1,
+      DT: [],
+    };
   }
 };
 
@@ -53,6 +63,11 @@ const getUpdateUserById = async (id) => {
     return user.get({ plain: true });
   } catch (error) {
     console.log(error);
+    return {
+      EM: "Something went wrong with service",
+      EC: -1,
+      DT: [],
+    };
   }
 };
 
@@ -68,6 +83,11 @@ const updateUsers = async (email, username, id) => {
     );
   } catch (error) {
     console.log(error);
+    return {
+      EM: "Something went wrong with service",
+      EC: -1,
+      DT: [],
+    };
   }
 };
 
@@ -78,6 +98,11 @@ const deleteUserById = async (id) => {
     });
   } catch (error) {
     console.log(error);
+    return {
+      EM: "Something went wrong with service",
+      EC: -1,
+      DT: [],
+    };
   }
 };
 
