@@ -14,8 +14,7 @@ module.exports = (sequelize, DataTypes) => {
        * with the foreign key being defined in the source model (User).
        *
        */
-      User.belongsTo(models.Group);
-      User.hasMany(models.Project);
+      User.belongsTo(models.Group, { foreignKey: "groupId" });
       //A.belongsToMany(B, { through: 'C' })
       User.belongsToMany(models.Project, { through: "Project_User" });
     }
