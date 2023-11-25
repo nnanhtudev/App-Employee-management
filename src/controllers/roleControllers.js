@@ -1,24 +1,12 @@
 import roleApiService from "../services/roleApiService";
 const readFunc = async (req, res) => {
   try {
-    console.log(">>> Check req.user", req.user);
-    if (req.query.page && req.query.limit) {
-      let page = req.query.page;
-      let limit = req.query.limit;
-      let data = await roleApiService.getPaginateWithUsers(+page, +limit);
-      return res.status(200).json({
-        EM: data.EM, //error message,.
-        EC: data.EC, //error code
-        DT: data.DT, //data
-      });
-    } else {
-      let data = await roleApiService.getAllUser();
-      return res.status(200).json({
-        EM: data.EM, //error message,
-        EC: data.EC, //error code
-        DT: data.DT, //data
-      });
-    }
+    let data = await roleApiService.getAllRoles();
+    return res.status(200).json({
+      EM: data.EM, //error message,
+      EC: data.EC, //error code
+      DT: data.DT, //data
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -66,7 +54,7 @@ const updateFunc = async (req, res) => {
 };
 const deleteFunc = async (req, res) => {
   try {
-    let data = await roleApiService.deleteUser(req.body.id);
+    let data = await roleApiService.deleteRoles(req.body.id);
     return res.status(200).json({
       EM: data.EM, //error message,
       EC: data.EC, //error code
