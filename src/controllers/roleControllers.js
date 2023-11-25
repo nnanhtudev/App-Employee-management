@@ -70,17 +70,14 @@ const deleteFunc = async (req, res) => {
   }
 };
 
-const getUserAccount = async (req, res) => {
+const getRoleByGroup = async (req, res) => {
   try {
+    let id = req.params.groupId;
+    let data = await roleApiService.getRoleByGroup(id);
     return res.status(200).json({
-      EM: "Ok!", //error message,
-      EC: 0, //error code
-      DT: {
-        access_token: req.token,
-        groupWithRoles: req.user.groupWithRoles,
-        email: req.user.email,
-        username: req.user.username,
-      }, //data
+      EM: data.EM, //error message,
+      EC: data.EC, //error code
+      DT: data.DT, //data
     });
   } catch (error) {
     console.log(error);
@@ -92,4 +89,4 @@ const getUserAccount = async (req, res) => {
   }
 };
 
-module.exports = { readFunc, createFunc, updateFunc, deleteFunc };
+module.exports = { readFunc, createFunc, updateFunc, deleteFunc, getRoleByGroup };
