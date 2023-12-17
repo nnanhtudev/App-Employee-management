@@ -67,6 +67,7 @@ const checkUserPermission = (req, res, next) => {
     let email = req.user.email;
     let roles = req.user.groupWithRoles.Roles;
     let currentUrl = req.path;
+    console.log(currentUrl);
     if (!roles && roles.length === 0) {
       return res.status(403).json({
         EM: "Your don't have  permission to access this resource",

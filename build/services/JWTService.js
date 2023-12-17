@@ -8,7 +8,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var getGroupsWithRoles = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(user) {
-    var roles;
+    var rolesByGroup;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -27,9 +27,16 @@ var getGroupsWithRoles = /*#__PURE__*/function () {
             }
           });
         case 2:
-          roles = _context.sent;
-          return _context.abrupt("return", roles ? roles : {});
-        case 4:
+          rolesByGroup = _context.sent;
+          if (rolesByGroup) {
+            _context.next = 6;
+            break;
+          }
+          console.log("Group not found");
+          return _context.abrupt("return", {});
+        case 6:
+          return _context.abrupt("return", rolesByGroup ? rolesByGroup : {});
+        case 7:
         case "end":
           return _context.stop();
       }

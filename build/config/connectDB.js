@@ -15,12 +15,14 @@ var database = process.env.DB_NAME;
 var username = process.env.DB_USER;
 var password = process.env.DB_PASSWORD;
 var port = process.env.DB_PORT;
+var dialect = process.env.DB_DIALECT;
+
 // Option 3: Passing parameters separately (other dialects)
 var sequelize = new _sequelize.Sequelize(database, username, password, {
   host: host,
   port: port,
   // Specify the port you've configured for MySQL
-  dialect: "mysql"
+  dialect: dialect
 });
 var connection = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {

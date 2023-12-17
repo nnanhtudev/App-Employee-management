@@ -83,33 +83,33 @@ const handleLoginUser = async (rawData) => {
     });
     if (user) {
       let isCorrectPassword = checkPassword(rawData.password, user.password);
-      if (isCorrectPassword === true) {
-        //test roles
-        let groupWithRoles = await getGroupsWithRoles(user);
-        //Create payload
-        let payload = {
-          email: user.email,
-          username: user.username,
-          groupWithRoles,
-        };
-        let token = createJWT(payload);
+      if (isCorrectPassword === false) {
         return {
-          EM: "Ok!",
-          EC: 0,
-          DT: {
-            access_token: token,
-            groupWithRoles,
-            email: user.email,
-            username: user.username,
-          },
+          EM: "Your email/phone number or password is incorrect",
+          EC: 1,
+          DT: "",
         };
       }
+      //test roles
+      let groupWithRoles = await getGroupsWithRoles(user);
+      //Create payload
+      let payload = {
+        email: user.email,
+        username: user.username,
+        groupWithRoles,
+      };
+      let token = createJWT(payload);
+      return {
+        EM: "Ok!",
+        EC: 0,
+        DT: {
+          access_token: token,
+          groupWithRoles,
+          email: user.email,
+          username: user.username,
+        },
+      };
     }
-    return {
-      EM: "Your email/phone number or password is incorrect",
-      EC: 1,
-      DT: "",
-    };
   } catch (error) {
     console.log(error);
     return {

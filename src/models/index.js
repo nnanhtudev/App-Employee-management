@@ -20,9 +20,6 @@ const customizeConfig = {
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   dialect: process.env.DB_DIALECT,
-  query: {
-    raw: true,
-  },
   timezone: "+07:00",
 };
 

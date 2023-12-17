@@ -38,9 +38,7 @@ module.exports = function (sequelize, DataTypes) {
          * with the foreign key being defined in the target model (User).
          * The `models/index` file will call this method automatically.
          */
-        Group.hasMany(models.User, {
-          foreignKey: "groupId"
-        });
+        Group.hasMany(models.User);
         //A.belongsToMany(B, { through: 'C' })
         Group.belongsToMany(models.Role, {
           through: "Group_Role",

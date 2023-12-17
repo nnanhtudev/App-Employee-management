@@ -168,17 +168,23 @@ var handleLoginUser = /*#__PURE__*/function () {
         case 3:
           user = _context4.sent;
           if (!user) {
-            _context4.next = 13;
+            _context4.next = 14;
             break;
           }
           isCorrectPassword = checkPassword(rawData.password, user.password);
-          if (!(isCorrectPassword === true)) {
-            _context4.next = 13;
+          if (!(isCorrectPassword === false)) {
+            _context4.next = 8;
             break;
           }
-          _context4.next = 9;
+          return _context4.abrupt("return", {
+            EM: "Your email/phone number or password is incorrect",
+            EC: 1,
+            DT: ""
+          });
+        case 8:
+          _context4.next = 10;
           return (0, _JWTService.getGroupsWithRoles)(user);
-        case 9:
+        case 10:
           groupWithRoles = _context4.sent;
           //Create payload
           payload = {
@@ -197,12 +203,9 @@ var handleLoginUser = /*#__PURE__*/function () {
               username: user.username
             }
           });
-        case 13:
-          return _context4.abrupt("return", {
-            EM: "Your email/phone number or password is incorrect",
-            EC: 1,
-            DT: ""
-          });
+        case 14:
+          _context4.next = 20;
+          break;
         case 16:
           _context4.prev = 16;
           _context4.t0 = _context4["catch"](0);

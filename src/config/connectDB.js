@@ -6,11 +6,13 @@ const database = process.env.DB_NAME;
 const username = process.env.DB_USER;
 const password = process.env.DB_PASSWORD;
 const port = process.env.DB_PORT;
+const dialect = process.env.DB_DIALECT;
+
 // Option 3: Passing parameters separately (other dialects)
 const sequelize = new Sequelize(database, username, password, {
   host: host,
   port: port, // Specify the port you've configured for MySQL
-  dialect: "mysql",
+  dialect: dialect,
 });
 
 const connection = async () => {
