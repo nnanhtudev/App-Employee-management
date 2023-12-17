@@ -90,7 +90,7 @@ var handleLogin = /*#__PURE__*/function () {
         case 3:
           data = _context2.sent;
           //set cookie
-          if (data && data.DT.access_token) {
+          if (data && data.EC === 0) {
             res.cookie("jwt", data.DT.access_token, {
               httpOnly: true,
               maxAge: 60 * 60 * 1000

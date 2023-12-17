@@ -1,7 +1,7 @@
 #https://www.digitalocean.com/community/tutorials/how-to-build-a-node-js-application-with-docker
 
-FROM node:18-alpine
-#Setup environment node.js, version node18/alpine
+FROM node:20-alpine
+#Setup environment node.js, version node20/alpine
 
 WORKDIR /tudev/backend
 

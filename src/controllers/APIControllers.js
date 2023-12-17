@@ -46,7 +46,7 @@ const handleLogin = async (req, res) => {
   try {
     let data = await handleLoginUser(req.body);
     //set cookie
-    if (data && data.DT.access_token) {
+    if (data && data.EC === 0) {
       res.cookie("jwt", data.DT.access_token, { httpOnly: true, maxAge: 60 * 60 * 1000 });
     }
 
