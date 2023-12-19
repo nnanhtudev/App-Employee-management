@@ -6,12 +6,13 @@ import initWebRoutes from "./routes/web";
 import initAPIRoutes from "./routes/api";
 import connection from "./config/connectDB";
 import configCors from "./config/cors";
-import cookieParser from 'cookie-parser'
+import cookieParser from "cookie-parser";
+import { configPassPort } from "./controllers/passportController";
 
 const app = express();
 const port = process.env.PORT || 3000;
 // Add headers before the routes are defined
-configCors(app)
+configCors(app);
 
 // Config view engine
 configViewEngine(app);
@@ -22,17 +23,19 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 connection();
 //config cookies parser
-app.use(cookieParser())
+app.use(cookieParser());
 
 //config web routes
 initWebRoutes(app);
-initAPIRoutes(app)
+initAPIRoutes(app);
 
 app.use((req, res) => {
   return res.send({
-    message: '404 not found',
-  })
-})
+    message: "404 not found",
+  });
+});
+
+configPassPort();
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
