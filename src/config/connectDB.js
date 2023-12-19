@@ -13,6 +13,7 @@ const sequelize = new Sequelize(database, username, password, {
   host: host,
   port: port, // Specify the port you've configured for MySQL
   dialect: dialect,
+  logging: false,
 });
 
 const connection = async () => {
