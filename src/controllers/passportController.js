@@ -11,7 +11,6 @@ const configPassPort = () => {
       };
 
       let res = await loginRegisterService.handleLoginUser(rawData);
-      console.log(res);
       if (res && res.EC === 0) {
         return cb(null, res.DT);
       } else {
